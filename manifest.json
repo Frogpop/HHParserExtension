@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "HHParserExtension",
+  "version": "1",
+  "description": "Automatic copying of data from a resume hh.ru in jira",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": [
+    "https://*.hh.ru/resume/*",
+    "https://*.jira.com/*"
+  ],
+  "background": {
+    "service_worker": "service_worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.hh.ru/resume/*"],
+      "js": ["hh_content.js"]
+    },
+    {
+      "matches": [
+        "*://*/secure/CreateIssue!default.jspa",
+        "*://*/browse/*"
+      ],
+      "js": ["jira_content.js"]
+    }
+  ]
+}
