@@ -1,27 +1,32 @@
 {
   "manifest_version": 3,
   "name": "HHParserExtension",
-  "version": "1",
+  "version": "1.0",
   "description": "Automatic copying of data from a resume hh.ru in jira",
   "permissions": ["storage", "activeTab", "scripting"],
-  "host_permissions": [
-    "https://*.hh.ru/resume/*",
-    "https://*.jira.com/*"
-  ],
-  "background": {
-    "service_worker": "service_worker.js"
-  },
   "content_scripts": [
     {
       "matches": ["https://*.hh.ru/resume/*"],
       "js": ["hh_content.js"]
     },
     {
-      "matches": [
-        "*://*/secure/CreateIssue!default.jspa",
-        "*://*/browse/*"
-      ],
-      "js": ["jira_content.js"]
+      "matches": ["https://*.atlassian.net/*"],
+      "js": ["jira_content.js"],
+      "run_at": "document_end"
     }
-  ]
+  ],
+  "host_permissions": [
+    "https://*.hh.ru/resume/*",
+    "https://*.atlassian.net/*",
+    "https://*.jira.com/*",
+    "https://*.atlassian.net/secure/CreateIssue.jspa*",
+    "https://*.atlassian.net/secure/CreateIssue!default.jspa*",
+    "https://*.atlassian.net/secure/EditIssue!default.jspa*"
+  ],
+  "background": {
+    "service_worker": "service_worker.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
 }
